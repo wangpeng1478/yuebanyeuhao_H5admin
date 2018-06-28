@@ -334,9 +334,9 @@
                             <p v-if="n.moldx == '固话'">
                                 <Icon type="ios-telephone"></Icon> {{n.moldx}}: {{n.subs}}</p>
                             <p v-if="n.moldx == '名片正'">
-                                <Icon type="card"></Icon> {{n.moldx}}: <a href="#" @click.prevent='clickCard(n.subs)'>点击查看</a></p>
+                                <Icon type="card"></Icon> {{n.moldx}}: <a href="#" @click.prevent='clickCard(n.subs)'>查看</a></p>
                             <p v-if="n.moldx == '名片反'">
-                                <Icon type="card"></Icon> {{n.moldx}}: <a href="#" @click.prevent='clickCard(n.subs)'>点击查看</a></p>
+                                <Icon type="card"></Icon> {{n.moldx}}: <a href="#" @click.prevent='clickCard(n.subs)'>查看</a></p>
                             </div>
                         </Card>
                         <div>

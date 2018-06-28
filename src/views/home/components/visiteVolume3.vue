@@ -99,7 +99,7 @@
      width:100%;
      margin:0 auto;
      overflow:auto;
-     padding-bottom:50px;
+     padding-bottom:150px;
      .hr{
        height: 1px;
        border-bottom: 1px dashed #495060;

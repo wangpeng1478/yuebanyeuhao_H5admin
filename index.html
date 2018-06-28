@@ -1,24 +1,44 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-    <title>悦办越好</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="full-screen" content="yes">
     <meta name="x5-fullscreen" content="true">
+    <link rel="shortcut icon" href="http://www.yuebanyuehao.com/td_icon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/dist/main.css">
     <link rel="shortcut icon" href="./td_icon.ico" type="image/x-icon" />
     <!-- <link rel="shortcut icon" href="/dist/td_icon.ico" type="image/x-icon" /> -->
+    <style>
+    #loading{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.8);z-index:999;}.spinner{width:100%;height:60px;text-align:center;font-size:10px;position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;}.spinner>div{background-color:#2d8cf0;height:100%;width:6px;display:inline-block;-webkit-animation:stretchdelay 1.2s infinite ease-in-out;animation:stretchdelay 1.2s infinite ease-in-out;}.spinner .rect2{-webkit-animation-delay:-1.1s;animation-delay:-1.1s;}.spinner .rect3{-webkit-animation-delay:-1.0s;animation-delay:-1.0s;}.spinner .rect4{-webkit-animation-delay:-0.9s;animation-delay:-0.9s;}.spinner .rect5{-webkit-animation-delay:-0.8s;animation-delay:-0.8s;}@-webkit-keyframes stretchdelay{0%,40%,100%{transform:scaleY(0.4);-webkit-transform:scaleY(0.4);}20%{transform:scaleY(1.0);-webkit-transform:scaleY(1.0);}}@keyframes stretchdelay{0%,40%,100%{transform:scaleY(0.4);-webkit-transform:scaleY(0.4);}20%{transform:scaleY(1.0);-webkit-transform:scaleY(1.0);}}
+    </style>
 </head>
 
-<body>
+<body onload="loadingHide()">
     <div id="app"></div>
+    <div id="loading">
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+            <p style="color: #2d8cf0">可能需要加载一段时间</p>
+        </div>
+    </div>
     <!-- http://47.98.155.165/image/vueAdmin/gh_ace8a846d986_860.jpg -->
     <script type="text/javascript" src="/dist/vender-base.js"></script>
     <script type="text/javascript" src="/dist/vender-exten.js"></script>
     <script type="text/javascript" src="/dist/main.js"></script>
+    <script type="text/javascript">
+     function loadingHide() {
+        document.getElementById("loading").style.display="none";
+     }
+    </script>
 </body>
 
 </html>

@@ -1,15 +1,9 @@
 
 <style lang="less">
  .addip{
-   .formInlines{
-      .ivu-form-item{
-        width:250px;
-        display: inline-block;
-        margin: 5px 0;
-      }
-      .ivu-btn{
-        margin:5px 0 0 5px;
-      }
+   
+   .ivu-card-body{
+    padding:5px;
    }
  }
 </style>
@@ -17,24 +11,44 @@
 <template>
    <div class="addip cf">
    <pre>{{addip}}</pre>
+   <pre>{{addip1}}</pre>
 
-      <Card style="margin-bottom: 15px;">
+      <Card style="margin-bottom:5px;">
         <p slot="title">
             <Icon type="android-wifi"></Icon>
             添加IP
         </p>
-         <Form ref="formInline" :model="addip" :rules="ruleInline" :label-width="80" class="formInlines">
+         <Form ref="formInline" :model="addip" :rules="ruleInline" :label-width="40" class="formInlines">
             <FormItem label="IP" prop="ip">
                 <Input type="text" v-model="addip.ip" placeholder="--- --- -- ---">
                     <Icon type="connection-bars" slot="prepend"></Icon>
                 </Input>
             </FormItem>
             <FormItem label="备注">
-                <Input type="text" v-model="addip.rema" placeholder=""></Input>
+                <Input type="textarea" v-model="addip.rema" placeholder=""></Input>
             </FormItem>
-          <Button type="primary" :loading="loadings" @click="addips('formInline')">添加IP</Button>
+            <FormItem>
+             <Button type="primary" :loading="loadings" @click="addips('formInline')">添加IP</Button>
+            </FormItem>
+        </Form>
+      </Card>
+      <Card style="margin-bottom:5px;">
+        <p slot="title">
+            <Icon type="android-wifi"></Icon>
+            添加或删除不限制IP人员
+        </p>
+         <Form ref="formInline1" :model="addip1" :label-width="40" class="formInlines2">
+            <FormItem label="人员">
+               <Select v-model="addip1.name" multiple filterable>
+                  <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+               </Select>
+            </FormItem>
+            <FormItem>
+              <Button type="primary" :loading="loadings2" @click="addips2('formInline1')">添加或删除不限制IP人员</Button>
+            </FormItem>
+          
        </Form>
-
+      <Spin size="large" fix v-if="spinShow6"></Spin>
       </Card>
 
       <Card>
@@ -42,8 +56,14 @@
             <Icon type="android-wifi"></Icon>
             IP列表
         </p>
-          <Table height="600" :columns="columns" :data="userTables" :loading="loading1"></Table>
+          <Table :columns="columns" :data="userTables" :loading="loading1"></Table>
       </Card>
+      <Modal
+        v-model="modal1"
+        title="确定删除？"
+        @on-ok="removeip(ip)">
+        <Alert show-icon>确定删除{{ip}} ？ 删除后无法恢复</Alert>
+    </Modal>
 
    </div>
 </template>
@@ -56,6 +76,10 @@ export default {
     name: 'addip',
       data () {
           return {
+            cityList: [],
+            spinShow6:true,
+            modal1:false,
+            ip:'',
              columns:[
                 {
                     type: 'index',
@@ -63,63 +87,111 @@ export default {
                     align: 'center'
                 },
                 {
-                  title: '添加时间',
-                  key: 'time',
-                  sortable: true
-                },
-                {
                   title: 'IP地址',
+                  width: 180,
+                  align: 'center',
                   key: 'tcpip',
                 },
                 {
+                  title: '添加时间',
+                  key: 'time',
+                  width: 180,
+                  align: 'center',
+                  sortable: true
+                },
+                {
                   title: '备注',
+                  width: 180,
                   key: 'rema',
                 },
                 {
                   title: '操作',
+                  width: 80,
+                  align: 'center',
+                  fixed: 'right',
                   render: (h, params) => {
                             return h('div', [
-                                
-                                h('Poptip', {
-                                    props: {
-                                        title: '确定删除 '+params.row.tcpip+' ?',
-                                        confirm: true
-                                    },
-                                    on: {
-                                        'on-ok': () => {
-                                            this.removeip(params.row.tcpip)
-                                        }
-                                    }
-                                }, [
-                                  h('Button', {
+                                h('Button', {
                                     props: {
                                         type: 'error',
                                         size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            // this.removeip(params.row.tcpip)
+                                            console.log(params.row.tcpip)
+                                            this.ip = params.row.tcpip
+                                            this.modal1 = true
+                                        }
                                     }
-                                   }, '删除'),
-                                ]),
+                                }, '删除')
                             ]);
                         }
                 },
              ],
              userTables:[],
              loading1:true,
+             loadings2:false,
              loadings:false,
              addip:{
               ip:'',
               rema:''
              },
+             addip1:{
+               name:[],
+             },
               ruleInline: {
                   ip: [
                     { required: true, message: 'ip不能为空', trigger: 'blur' }
                   ]
-                }
+                },
           }
         },
         mounted(){
            this.dataiP()
+         let _this =this;
+           axios({
+              method:'post',
+              url:'/api/adminname',
+              headers:{Authorization:'Bearer '+Cookies.set('keya')},
+           })
+          .then(function (res) {
+            let data = res.data.message;
+            _this.metrosda = data;
+            let metros = [];
+              for (var i in data) {
+                  let nea = {
+                     value: data[i],
+                     label: data[i]
+                    }
+                metros.push(nea)
+                
+             }
+             _this.cityList = metros;
+             _this.spinShow6 = false
+
+          })
+          .catch(function (err) {
+              _this.$Notice.error({title: '人员错误'});
+          })
+        this.yir()
         },
         methods:{
+          yir(){
+            let _this =this;
+              axios({
+                  method:'post',
+                  url:'/api/ipexe1',
+                  headers:{Authorization:'Bearer '+Cookies.set('keya')},
+               })
+              .then(function (res) {
+                console.log(res.data.message)
+                _this.addip1.name = res.data.message
+              })
+              .catch(function (err) {
+                  _this.$Notice.error({title: '人员错误'});
+              })
+          },
            dataiP(){
             let _this = this;
             _this.loading1 = true 
@@ -138,6 +210,8 @@ export default {
            },
            removeip(e){
              let _this = this;
+             console.log(e)
+             // return false;
                axios({
                     method: 'post',
                     url: '/api/ipdel?ip='+e,
@@ -178,7 +252,27 @@ export default {
                             })
                     }
                 })
-           }
+           },
+           addips2(name){
+             let _this = this
+             _this.loadings2 = true
+              axios({
+                  method:'post',
+                  url:'/api/ipexe2',
+                  headers:{Authorization:'Bearer '+Cookies.set('keya')},
+                  data:{
+                    jo:_this.addip1.name
+                  }
+               })
+              .then(function (res) {
+                console.log(res)
+                _this.$Message.success('成功！');
+                _this.loadings2 = false
+              })
+              .catch(function (err) {
+                  _this.$Notice.error({title: '人员错误'});
+              })
+           },
 
         }
 };

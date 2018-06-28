@@ -324,28 +324,15 @@
                 </div>
             </shrinkable-menu>
             <div class="brs"></div>
-             <Menu theme="dark" class="nav_quan" @on-select="handleClickUserDropdownse" style="display: none;">
+             <Menu theme="dark" class="nav_quan" @on-select="handleClickUserDropdownse" v-if="auth.user01 || auth.user02">
                 <Submenu name="3">
                     <template slot="title">
                         <Icon type="settings"></Icon>
                         系统管理
                     </template>
                     <MenuGroup title="管理">
-                        <MenuItem name="0"><Icon type="person-add"></Icon> 用户管理 </MenuItem>
-                        <MenuItem name="1"><Icon type="android-wifi"></Icon> IP管理 </MenuItem>
-                    </MenuGroup>
-                    <MenuGroup title="删除">
-                        <MenuItem name="2"><Icon type="ios-trash-outline"></Icon> 楼盘删除</MenuItem>
-                        <MenuItem name="3"><Icon type="ios-trash"></Icon> 房源删除</MenuItem>
-                    </MenuGroup>
-                     <MenuGroup title="记录">
-                        <MenuItem name="4"><Icon type="ios-cog-outline"></Icon> 图片记录</MenuItem>
-                        <MenuItem name="5"><Icon type="ios-cog"></Icon> 跟进记录</MenuItem>
-                    </MenuGroup>
-                    <MenuGroup title="其他">
-                        <MenuItem name="6"><Icon type="ios-toggle-outline"></Icon> 添加区域/商圈</MenuItem>
-                        <MenuItem name="7"><Icon type="ios-toggle-outline"></Icon> 添加地铁</MenuItem>
-                        <MenuItem name="8"><Icon type="ios-toggle-outline"></Icon> 客户提醒间隔</MenuItem>
+                         <MenuItem name="0"><Icon type="person-add"></Icon> 用户管理 </MenuItem>
+                         <MenuItem name="1"><Icon type="android-wifi"></Icon> IP管理 </MenuItem>
                     </MenuGroup>
                 </Submenu>
             </Menu>
@@ -616,7 +603,7 @@
             backPage () {
                 this.$router.go(-1);
             },
-             cancelEditPass () {
+            cancelEditPass () {
               this.editPasswordModal = false;
             },
             saveEditPass () {
@@ -655,7 +642,7 @@
                         return true;
                     }
                 });
-                if (!openpageHasTag) { //  解决关闭当前标签后再点击回退按钮会退到当前页时没有标签的问题
+                if (!openpageHasTag) { // 解决关闭当前标签后再点击回退按钮会退到当前页时没有标签的问题
                     util.openNewPage(this, name, this.$route.params || {}, this.$route.query || {});
                 }
             },

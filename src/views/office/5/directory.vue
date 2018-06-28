@@ -64,12 +64,12 @@
                <FormItem label="房源名称">
                     <Select v-model="screens.name" 
                     class="selectsNmae" 
-                  filterable
-                  clearable
-                  remote
-                  :remote-method="remoteMethod"
-                  placeholder = '请搜索楼盘'
-                  :loading="loadingse">
+                    filterable
+                    clearable
+                    remote
+                    :remote-method="remoteMethod"
+                    placeholder = '请搜索楼盘'
+                    :loading="loadingse">
                       <Option v-for="(option, index) in optionsName" :value="option.value" :key="index">{{option.label}}</Option>
                   </Select>
               </FormItem>

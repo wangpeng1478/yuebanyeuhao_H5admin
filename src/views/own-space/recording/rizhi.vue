@@ -54,37 +54,42 @@
         <pre>{{screens}}</pre>
         <Card class='sere'>
             <p slot="title">
-                <Icon type="image"></Icon>
-                跟进记录列表
+                <Icon type="gear-a"></Icon>
+                操作日志
             </p>
-            <Form :model="screens" :label-width="80">
+            <Form :model="screens" :label-width="60">
                 <Row>
-                    <Col :xs="24" :sm="12" :md="12" :lg="5">
-                      <FormItem label="时间" style="margin:5px 0;">
+                    <Col :xs="24" :sm="12" :md="12" :lg="8">
+                      <FormItem label="时间">
                           <DatePicker style="width:100%" v-model="screens.time" type="daterange" :options="options2"></DatePicker>
                       </FormItem>
                     </Col>
-                    <Col :xs="24" :sm="12" :md="12" :lg="5">
-                      <FormItem label="归属人" style="margin:5px 0;">
-                          <Cascader class="caca" :data="cityList" v-model="screens.cacaDer" placeholder="部门/人员" change-on-select></Cascader>
+                    <Col :xs="24" :sm="12" :md="12" :lg="8">
+                      <FormItem label="归属人">
+                          <Select v-model="screens.luru" filterable clearable>
+                              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                          </Select>
                       </FormItem>
                     </Col>
-                    <Col :xs="24" :sm="24" :md="24" :lg="10">
-                      <FormItem label="类型" style="margin:5px 0;">
-                            <RadioGroup v-model="screens.type" type="button">
-                                <Radio label="房源跟进"></Radio>
-                                <Radio label="客户跟进"></Radio>
-                            </RadioGroup>
+                     <Col :xs="24" :sm="12" :md="12" :lg="8">
+                      <FormItem label="类型">
+                          <Select v-model="screens.type" filterable clearable>
+                              <Option v-for="item in cityListt" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                          </Select>
                       </FormItem>
                     </Col>
                     
                 </Row>
+            <!--     <Row>
+                  <Col :xs="24" :sm="24" :md="24" :lg="24" style="text-align:center">
+                      <FormItem>
+                        <Button size="small" @click='screenss' type="primary" icon="ios-search">查询</Button>
+                        <Button size="small" @click='reson' type="ghost" icon="reply">重置</Button>
+                      </FormItem>
+                  </Col>
+                </Row> -->
+               
             </Form>
-        </Card>
-        <Card class='titims'>
-            <div class="cf">
-                <div class="rigths">共:<b>{{totals}} </b>条</div>
-            </div>
         </Card>
         <Card class="padd10">
             <div class="cf">
@@ -114,6 +119,18 @@ export default {
                 value: '错误',
                 label: '错误'
             }],
+            cityListt: [
+            {
+                value: '跟进房源',
+                label: '跟进房源'
+            },{
+                value: '编辑房源',
+                label: '编辑房源'
+            },{
+                value: '新增房源',
+                label: '新增房源'
+            },
+            ],
             optionsName: [], //房源名称input
             options2: {
                 shortcuts: [{
@@ -146,75 +163,63 @@ export default {
                 ]
             },
             screens: {
-                time:[],
-                cacaDer:[],
-                type:'房源跟进'
+                time: [],
+                luru: '' //人
             },
             HouseTable: [
                     {
-                        title: 'ID',
-                        width: 80,
-                        key: 'id'
+                     title: '姓名',
+                     key: 'master'
                     },
                     {
-                        title: '门牌号',
-                        width: 200,
-                        key: 'men'
+                     title: '时间',
+                     key: 'updated_at'
                     },
                     {
-                        title: '跟进人',
-                        width: 100,
-                        key: 'ren'
+                     title: '操作',
+                     key: 'rema'
                     },
-                    {
-                        title: '跟进时间',
-                        width: 200,
-                        key: 'time'
-                    },
-                    {
-                        title: '内容',
-                        key: 'con'
-                    },
-            ],
-            HouseTableData: [{
-                id:'',
-                men:'门牌号',
-                ren:'跟进人',
-                time:'跟进时间',
-                con:'内容',
-            }],
+                ],
+            HouseTableData: [],
         }
     },
     mounted() {
         this.adminname();
+        // this.ajaxName(); //大楼名字
         this.showHidese(1);
     },
     methods: {
-         adminname(){
-           let _this = this;
+        adminname() {
+            let _this = this;
             axios({
-                method:'post',
-                url:'/api/adminname2',
-                headers:{Authorization:'Bearer '+Cookies.set('keya')},
-             })
-            .then(function (res) {
-              if (res.data.statusx == 200) {
-               _this.cityList = res.data.message
-              }else{
-                _this.$Notice.error({title: '人员错误'});
-              }
-            })
-            .catch(function (err) {
-                _this.$Notice.error({title: '人员错误'});
-            })
-      },
+                    method: 'post',
+                    url: '/api/adminname',
+                    headers: { Authorization: 'Bearer ' + Cookies.set('keya') },
+                })
+                .then(function(res) {
+                    let data = res.data.message;
+                    _this.metrosda = data;
+                    let metros = [];
+                    for (var i in data) {
+                        let nea = {
+                            value: data[i],
+                            label: data[i]
+                        }
+                        metros.push(nea)
+                    }
+                    _this.cityList = metros;
+                })
+                .catch(function(err) {
+                    _this.$Notice.error({ title: '人员错误' });
+                })
+        },
         showHidese(e) {
             var _this = this;
             //房源有条件
             _this.loadings = true;
             axios({
                     method: 'post',
-                    url: '/api/traclist?page=' + e,
+                    url: '/api/jourlist?page=' + e,
                     headers: { Authorization: 'Bearer ' + Cookies.set('keya') },
                     data: {
                         jo: _this.screens
@@ -232,7 +237,7 @@ export default {
                 })
         },
         changepage(page) {
-             // this.loadings = true;
+             this.loadings = true;
              this.showHidese(page);
         },
 

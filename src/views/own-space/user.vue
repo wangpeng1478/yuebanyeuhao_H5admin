@@ -45,47 +45,64 @@
       }
     }
   }
-  .footer12{
-    text-align: center;
-    .Select12{
-    width:200px;
-    .ivu-select-item{
-      text-align:left
-    }
-  }
+  // .footer12{
+  //   text-align: center;
+  //   .select12{
+  //   .ivu-select-item{
+  //     text-align:left
+  //   }
+  // }
 
+  // }
+   .useradmin{
+     .sre{
+         background: #fff;
+         padding: 7px;
+         margin-bottom: 5px;
+       .lesr{
+         float:left;
+         margin-right: 5px;
+       }
+       .rigths{
+        float:right;
+        line-height: 25px;
+       }
+     }
+     
+   }
+   .selectUI{
+    width: 100%;
+    height: 32px;
+    line-height: 1.5;
+    padding: 4px 7px;
+    font-size: 12px;
+    border: 1px solid #dddee1;
+    border-radius: 4px;
+    color: #495060;
+    background-color: #fff;
   }
-   
 </style>
 
 <template>
    <div class="useradmin cf">
    <pre>{{data.power}}</pre>
    <pre>{{Modal1data4}}</pre>
-      <Card class='sere'>
-        <p slot="title">
-            <Icon type="person"></Icon>
-            用户列表
-        </p>
         
-   <Card class='titims'>
-    <div class="cf">
-    <!-- <pre>
-      {{auth}} user01
-    </pre> -->
-      <Button v-if="auth.user01" class="lesr" @click="Modal3 = true" type="primary" shape="circle" icon="ios-plus-outline">添加用户</Button>
-      <Button v-if="auth.user02" class="lesr" @click="Modal4srrr" type="primary" shape="circle" icon="ios-plus-outline">添加角色</Button>
+   <!-- <Card class='titims'> -->
+    <div class="sre cf">
+      <Button v-if="auth.user01" size='small' class="lesr" @click="Modal3 = true" type="primary" shape="circle" icon="ios-plus-outline">添加用户</Button>
+      <Button v-if="auth.user02" size='small' class="lesr" @click="Modal4srrr" type="primary" shape="circle" icon="ios-plus-outline">添加角色</Button>
        <div class="rigths"><b>40</b>个用户</div>
      </div>
-    </Card>
+    <!-- </Card> -->
 
-      <Card>
-          <Table height="600" :columns="columns" :data="userTables" :loading="loading1" border></Table>
-      </Card>
+      <div>
+          <Table :columns="columns" :data="userTables" :loading="loading1" border></Table>
+      </div>
     
     <!-- 转移 -->
    
-        <Modal v-model="Modal1" :closable='false' :mask-closable='false' :width="500">
+        <Modal :styles="{top: '5px'}" v-model="Modal1" :closable='false' :mask-closable='false'>
             <h3 slot="header" style="color:#2D8CF0">转移房源{{id}}</h3>
               <ul class="Modal1">
                 <li><span>用户名:</span>{{Modal1data.name}}</li>
@@ -97,18 +114,38 @@
                 <li><span>电话:</span>{{Modal1data.phone}}</li>
               </ul>
             <div slot="footer" class="footer12">
-                 <Select v-model="ascription" filterable clearable class="Select12">
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                 </Select>
+                 <select v-model="ascription" class="selectUI" style="width: 148px;display: inline-block;vertical-align: top;">
+                      <option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</option>
+                 </select>
                  <Button type="primary" @click="moving" :loading="loading2">转移房源</Button>
                  <Button type="ghost" @click="Modal1 = false">取消</Button>
+            </div>
+        </Modal>
+
+        <Modal :styles="{top: '5px'}" v-model="Modal123" :closable='false' :mask-closable='false'>
+            <h3 slot="header" style="color:#2D8CF0">转移房源{{id}}</h3>
+              <ul class="Modal1">
+                <li><span>用户名:</span>{{Modal1data.name}}</li>
+                <li><span>英文名:</span>{{Modal1data.ename}}</li>
+                <li><span>是否激活:</span>{{Modal1data.act}}</li>
+                <li><span>客户:</span>{{Modal1data.clue}}</li>
+                <li><span>房源:</span>{{Modal1data.yuan}}</li>
+                <li><span>部门:</span>{{Modal1data.branchx}}部</li>
+                <li><span>电话:</span>{{Modal1data.phone}}</li>
+              </ul>
+            <div slot="footer" class="footer12">
+                 <select v-model="ascription" class="selectUI" style="width: 148px;display: inline-block;vertical-align: top;">
+                      <option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</option>
+                 </select>
+                 <Button type="primary" @click="moving23" :loading="loading23">转移客户</Button>
+                 <Button type="ghost" @click="Modal123 = false">取消</Button>
             </div>
         </Modal>
 
     <!-- 转移 -->
     <!-- 编辑用户 -->
 
-        <Modal v-model="Modal2" :closable='false' :mask-closable='false' :width="500">
+        <Modal :styles="{top: '5px'}" v-model="Modal2" :closable='false' :mask-closable='false'>
             <h3 slot="header" style="color:#2D8CF0">用户编辑{{id}}</h3>
 
            <Form :model="Modal1data2" :label-width="80" ref='Modal1data2se' :rules="Modal1data22">
@@ -124,9 +161,9 @@
                     </RadioGroup>
               </FormItem>
               <FormItem label="角色">
-                  <Select v-model="Modal1data2.iden">
-                      <Option v-for="s in data.iden" :value="s" :key="s">{{ s }}</Option>
-                  </Select>
+                  <select v-model="Modal1data2.iden" class="selectUI">
+                      <option v-for="s in data.iden" :value="s" :key="s">{{ s }}</option>
+                  </select>
               </FormItem>
               <FormItem label="联系电话" prop="phone">
                   <Input v-model="Modal1data2.phone"></Input>
@@ -140,7 +177,7 @@
 
     <!-- 编辑用户 -->
     <!-- 添加用户 -->
-    <Modal v-model="Modal3" :closable='false' :mask-closable='false' :width="500" :label-width="150">
+    <Modal :styles="{top: '5px'}" v-model="Modal3" :closable='false' :mask-closable='false'>
             <h3 slot="header" style="color:#2D8CF0">添加用户</h3>
 
            <Form :model="Modal1data3" :label-width="80" ref='Modal1data3se' :rules="Modal1data33">
@@ -156,9 +193,9 @@
                     </RadioGroup>
               </FormItem>
               <FormItem label="角色" prop="iden">
-                  <Select v-model="Modal1data3.iden">
-                      <Option v-for="s in data.iden" :value="s" :key="s">{{ s }}</Option>
-                  </Select>
+                  <select v-model="Modal1data3.iden" class="selectUI">
+                      <option v-for="s in data.iden" :value="s" :key="s">{{ s }}</option>
+                  </select>
               </FormItem>
               <FormItem label="联系电话" prop="phone">
                   <Input v-model="Modal1data3.phone"></Input>
@@ -191,14 +228,14 @@
                     <Input type="textarea" v-model="Modal1data4.note"></Input>
                 </FormItem>
 
-                <FormItem label="操作权限">
+                <!-- <FormItem label="操作权限"> -->
                       <CheckboxGroup v-model="Modal1data4.checkAllGroup">
                          <Card class="Cardqunx" v-for="(site ,key) in data.power" :key="key">
                           <p slot="title">{{key}}</p>
                           <Checkbox v-for="(w ,key) in site" :label="w.v" :key="w.v" >{{w.k}}</Checkbox>
                         </Card>
                       </CheckboxGroup>
-                </FormItem>
+                <!-- </FormItem> -->
              </Form>
 
             <div slot="footer">
@@ -208,7 +245,27 @@
             </div>
         </Modal>
    <!-- 添加角色 -->
-    </Card>
+   <!-- mima -->
+        <Modal :styles="{top: '5px'}" v-model="editPasswordModal" :closable='false' :mask-closable='false'>
+            <h3 slot="header" style="color:#2D8CF0">修改密码</h3>
+            <Form ref="editPasswordForm" :model="editPasswordForm" :label-width="100" label-position="right" :rules="passwordValidate">
+               <!--  <FormItem label="原密码" prop="oldPass" :error="oldPassError">
+                    <Input v-model="editPasswordForm.oldPass" placeholder="请输入现在使用的密码" ></Input>
+                </FormItem> -->
+                <FormItem label="新密码" prop="newPass">
+                    <Input v-model="editPasswordForm.newPass" placeholder="请输入新密码，至少6位字符" ></Input>
+                </FormItem>
+                <FormItem label="确认新密码" prop="rePass">
+                    <Input v-model="editPasswordForm.rePass" placeholder="请再次输入新密码" ></Input>
+                </FormItem>
+            </Form>
+            <div slot="footer">
+                <Button type="text" @click="cancelEditPass">取消</Button>
+                <Button type="primary" :loading="savePassLoading" @click="saveEditPass">保存</Button>
+            </div>
+        </Modal>
+   <!-- mima -->
+
    </div>
 </template>
 
@@ -227,32 +284,58 @@ export default {
                 callback();
             }
         };
+        const valideRePassword2 = (rule, value, callback) => {
+                if (value !== this.editPasswordForm.newPass) {
+                    callback(new Error('两次输入密码不一致'));
+                } else {
+                    callback();
+                }
+          };
         return {
+            editPasswordModal: false, // 修改密码模态框显示
+            savePassLoading: false, // 修改密码模态框显示
+            editPasswordForm: {
+                newPass: '',
+                rePass: ''
+              },
+            passwordValidate: {
+                    newPass: [
+                        { required: true, message: '请输入新密码', trigger: 'blur' },
+                        { min: 6, message: '请至少输入6个字符', trigger: 'blur' },
+                        { max: 32, message: '最多输入32个字符', trigger: 'blur' }
+                    ],
+                    rePass: [
+                        { required: true, message: '请再次输入新密码', trigger: 'blur' },
+                        { validator: valideRePassword2, trigger: 'blur' }
+                    ]
+                },
             id: '',
             auth:JSON.parse(Cookies.set('auth')),
             namese: '',
             data: {},
             columns: [
-               {
-                    title: 'ID',
-                    key: 'id',
-                    width: 100,
-                    sortable: true
-                },
                 {
                     title: '用户名',
                     key: 'uname',
+                    align: 'center',
+                    fixed: 'left',
+                    width: 100
                 },
                 {
                     title: '权限',
+                    align: 'center',
+                    width: 100,
                     key: 'iden'
                 },
                 {
                     title: '联系电话',
+                    align: 'center',
+                    width: 150,
                     key: 'phone'
                 },
                 {
                     title: '是否激活',
+                    align: 'center',
                     width: 120,
                     align: 'center',
                     render: (h, params) => {
@@ -299,8 +382,7 @@ export default {
                 {
                     title: '操作',
                     key: 'iden',
-                    width: 280,
-                    fixed: 'right',
+                    width: 450,
                     align: 'center',
                     render: (h, params) => {
                         return h('div', [
@@ -310,7 +392,7 @@ export default {
                                     size: 'small'
                                 },
                                 style: {
-                                    margin: '2px'
+                                    margin: '4px'
                                 },
                                 on: {
                                     click: () => {
@@ -325,7 +407,7 @@ export default {
                                     size: 'small'
                                 },
                                 style: {
-                                    margin: '2px'
+                                    margin: '4px'
                                 },
                                 on: {
                                     click: () => {
@@ -342,7 +424,7 @@ export default {
                                     size: 'small'
                                 },
                                 style: {
-                                    margin: '2px'
+                                    margin: '4px'
                                 },
                                 on: {
                                     click: () => {
@@ -350,7 +432,37 @@ export default {
                                         this.Transfer(params.row.id);
                                     }
                                 }
-                            }, '转移房源')
+                            }, '转移房源'),
+                             h('Button', {
+                                props: {
+                                    type: 'error',
+                                    size: 'small'
+                                },
+                                style: {
+                                    margin: '4px'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.id = params.row.id;
+                                        this.Transfer2(params.row.id);
+                                    }
+                                }
+                            }, '转移客户'),
+                            h('Button', {
+                                props: {
+                                    type: 'error',
+                                    size: 'small'
+                                },
+                                style: {
+                                    margin: '4px'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.namese = params.row.uname;
+                                        this.editPasswordModal = true
+                                    }
+                                }
+                            }, '修改密码')
                         ]);
                     }
                 }
@@ -363,6 +475,8 @@ export default {
             loading3: false,
             loading4: false,
             loading5: false,
+            loading23: false,
+            Modal123:false,
             Modal1: false, //转移房源/激活 true
             Modal1data: {}, //转移房源/激活 data
             ascription: '', //转移房源/激活 reata
@@ -427,6 +541,39 @@ export default {
         this.usadminse(); //ren
     },
     methods: {
+        cancelEditPass () {
+              this.editPasswordModal = false;
+            },
+            saveEditPass () {
+                this.$refs['editPasswordForm'].validate((valid) => {
+                    if (valid) {
+                        this.savePassLoading = true;
+                        // this.editPasswordModal = true;
+                        let _this = this;
+                        axios({
+                                method: 'post',
+                                url: '/api/modup2',
+                                headers: { Authorization: 'Bearer ' + Cookies.set('keya') },
+                                data:{"jo":{
+                                  name:_this.namese,
+                                  pass:_this.editPasswordForm.rePass
+                                }}
+                            })
+                            .then(function(res) {
+                                _this.$Message.success('修改密码成功');
+                                _this.savePassLoading = false;
+                                _this.editPasswordModal = false;
+                                _this.editPasswordForm = {
+                                  newPass: '',
+                                  rePass: ''
+                                }
+                            })
+                            .catch(function(err) {
+                                _this.$Notice.error({ title: '错误' });
+                            })
+                    }
+                });
+            },
         Modal4srrr() {
             this.Modal4 = true
             this.Editnew = true
@@ -506,6 +653,22 @@ export default {
                     _this.$Notice.error({ title: '用户错误' });
                 })
         },
+        Transfer2(e) {
+           // 转移 类表
+            let _this = this;
+            _this.Modal123 = true;
+            axios({
+                    method: 'post',
+                    url: '/api/useracti1?id=' + e,
+                    headers: { Authorization: 'Bearer ' + Cookies.set('keya') },
+                })
+                .then(function(res) {
+                    _this.Modal1data = res.data.message
+                })
+                .catch(function(err) {
+                    _this.$Notice.error({ title: '用户错误' });
+                })
+        },
         moving() {
             // 转移 类表
             let _this = this;
@@ -528,6 +691,40 @@ export default {
                             _this.$Message.success('房源转移成功');
                             _this.Modal1 = false
                             _this.loading2 = false;
+                        } else {
+                            _this.$Notice.error({ title: res.data.message });
+                            _this.loading2 = false;
+                        }
+                    })
+                    .catch(function(err) {
+                        _this.$Notice.error({ title: '转移错误' });
+                        _this.loading2 = false;
+                    })
+            }
+        },
+        moving23() {
+            // 转移 类表
+            let _this = this;
+            _this.loading2 = true;
+            if (_this.ascription == '') {
+                _this.$Message.warning('选择房源转移用户');
+                _this.loading2 = false;
+            } else {
+                axios({
+                        method: 'post',
+                        url: '/api/useracti4',
+                        headers: { Authorization: 'Bearer ' + Cookies.set('keya') },
+                        data: {
+                            id: _this.id,
+                            name: _this.ascription
+                        }
+                    })
+                    .then(function(res) {
+                      console.log(res)
+                        if (res.data.statusx == 200) {
+                            _this.$Message.success('客户转移成功');
+                            _this.Modal123 = false
+                            _this.loading23 = false;
                         } else {
                             _this.$Notice.error({ title: res.data.message });
                             _this.loading2 = false;
@@ -641,11 +838,11 @@ export default {
             this.$refs['Modal1data3ses'].validate((valid) => {
                 if (valid) {
                     let _this = this;
-                    _this.Modal1data4 = {
-                        name: '',
-                        note: '',
-                        checkAllGroup: []
-                    };
+                    // _this.Modal1data4 = {
+                    //     name: '',
+                    //     note: '',
+                    //     checkAllGroup: []
+                    // };
                     _this.loading5 = true
                     axios({
                             method: 'post',
