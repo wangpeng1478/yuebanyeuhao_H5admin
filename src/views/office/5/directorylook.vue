@@ -1,12 +1,13 @@
 
 <style lang="less">
  .directorylook{
+  .ivu-card-body{padding:5px}
   .mingCard{
      width: 100%;
      display: inline-block;
      vertical-align: top;
-     margin: 5px;
      p{margin-bottom:5px;}
+     .ivu-card-body{padding:15px}
      .ivu-icon{
       font-size: 15px;
       width: 15px;
@@ -124,7 +125,7 @@
 
 .contents .wrapper {
     position: relative;
-    width: 890px;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -143,7 +144,7 @@
 }
 
 .contents .mains {
-    background: url("http://47.98.155.165/image/vueAdmin/ico/line-bg.png") repeat-y 249px 0;
+    background: url("http://47.98.155.165/image/vueAdmin/ico/line-bg.png") repeat-y 10px 0;
 }
 
 .contents .mains .title {
@@ -169,7 +170,8 @@
     padding-right: 30px;
     font-size: 24px;
     line-height: 40px;
-    text-align: right;
+    text-align: left;
+    padding-left: 25px;
 }
 
 .contents .mains .year h2 a {
@@ -184,8 +186,8 @@
     position: relative;
     height: 0;
     width: 0;
-    left: 190px;
-    top: -20px;
+    left: 100px;
+    top: -22px;
     border-width: 6px;
     border-style: solid;
     border-color: #59a7fb transparent transparent transparent;
@@ -217,7 +219,7 @@
 }
 
 .contents .mains .year .list ul li {
-    background: url("http://47.98.155.165/image/vueAdmin/ico/circle.png") no-repeat 235px 20px;
+    background: url("http://47.98.155.165/image/vueAdmin/ico/circle.png") no-repeat -4px 15px;
     padding: 15px 0;
     color: #4b4b4b;
     list-style-type: none;
@@ -255,14 +257,17 @@
     line-height: 32px;
     color: #4b4b4b;
     margin-left: 10px;
+    text-align: left;
+    padding-left: 26px;
 }
 
 .contents .mains .year .list ul li .intro,
 .contents .mains .year .list ul li .more {
     float: left;
     display: block;
-    width: 445px;
-    margin-left: 85px;
+    width: 90%;
+    margin-left: 35px;
+    background:#fff;
     line-height: 24px;
     margin-top: 4px;
 }
@@ -296,13 +301,7 @@
     text-indent: 0 !important
 }
 
- @media (max-width: 992px){
-  .directorylook .mingCard{
-    width:48%;
-    display:inline-block;
-    margin:1%;
-  }
-}
+
 
 </style>
 
@@ -311,8 +310,8 @@
     <pre>{{id}}</pre>
     <pre>{{datas}}</pre>
        <Row>
-         <Col :xs="24" :sm="24" :md="8" :lg="6" style="padding:5px">
-             <Card style="margin-bottom: 10px;max-height:600px;overflow:auto">
+         <Col :xs="24" :sm="24" :md="24" :lg="24" style="margin:0 0 5px 0">
+             <Card>
                     <p slot="title">
                         <Icon type="person"></Icon>
                         联系人
@@ -330,9 +329,9 @@
                             <p v-if="n.moldx == '公司名称'">
                                 <Icon type="ios-home-outline"></Icon> {{n.moldx}}: {{n.subs}}</p>
                             <p v-if="n.moldx == '手机'">
-                                <Icon type="iphone"></Icon> {{n.moldx}}: {{n.subs}}</p>
+                                <Icon type="iphone"></Icon> {{n.moldx}}: <a :href="tele(n.subs)">{{n.subs}}</a></p>
                             <p v-if="n.moldx == '固话'">
-                                <Icon type="ios-telephone"></Icon> {{n.moldx}}: {{n.subs}}</p>
+                                <Icon type="ios-telephone"></Icon> {{n.moldx}}: <a :href="tele(n.subs)">{{n.subs}}</a></p>
                             <p v-if="n.moldx == '名片正'">
                                 <Icon type="card"></Icon> {{n.moldx}}: <a href="#" @click.prevent='clickCard(n.subs)'>查看</a></p>
                             <p v-if="n.moldx == '名片反'">
@@ -341,15 +340,15 @@
                         </Card>
                         <div>
                             <Modal v-model="clickCards">
-                                <img :src="clickCardsimg" style="width:500px;">
+                                <img :src="clickCardsimg" style="width:100%;">
                             </Modal>
                         </div>
                 </Card>
 
 
          </Col>
-         <Col :xs="24" :sm="24" :md="16" :lg="18" style="padding:5px">
-             <Card style="margin-bottom: 10px;">
+         <Col :xs="24" :sm="24" :md="24" :lg="24" >
+             <Card style="margin:0 0 5px 0">
                    <p slot="title">
                       <Icon type="ios-keypad-outline"></Icon>
                       操作日志
@@ -574,6 +573,9 @@ export default {
                 });
             }  
           },
+          tele(e){
+              return 'tel:'+e
+            },
            tiaozs(e){
               if (e == 0) {
                 if (this.reduce !== null) {

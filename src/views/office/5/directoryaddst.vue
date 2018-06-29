@@ -1,6 +1,9 @@
 
 <style lang="less">
  .directoryaddst{
+  .ivu-card-body{
+    padding:5px;
+  }
    .addlaixnienee{
     .ivu-card-extra{
     width: 52px;
@@ -18,15 +21,15 @@
    }
    .unit{
      .dsinblock1,.dsinblock3{
-       width:40%;
+       width:48%;
        display:inline-block;
      }
-     .dsinblock2{
-      width:15%;
-      display:inline-block;
-      vertical-align: text-bottom;
-      text-align: center;
-     }
+     // .dsinblock2{
+     //  width:15%;
+     //  display:inline-block;
+     //  vertical-align: text-bottom;
+     //  text-align: center;
+     // }
    }
    .wimax{
      max-width:700px;
@@ -90,25 +93,21 @@
      }
    }
  }
+.directoryaddst{
+  .selectUI{
+    width: 100%;
+    height: 32px;
+    line-height: 1.5;
+    padding: 4px 7px;
+    font-size: 12px;
+    border: 1px solid #dddee1;
+    border-radius: 4px;
+    color: #495060;
+    background-color: #fff;
+  }
+}
 
-  @media (max-width: 1200px){
-  .directoryaddst .unit .dsinblock2{
-     width: 20%;
-  }
-  .directoryaddst .unit .dsinblock1, .directoryaddst .unit .dsinblock3 {
-    width: 35%;
-  }
-}
-@media (max-width: 1530px){
-  .directoryaddst .top10s{
-    width:100%;
-  }
-}
-@media (max-width: 997px){
-  .directoryaddst .top10s{
-    width:50%;
-  }
-}
+ 
 </style>
 
 <template>
@@ -140,49 +139,50 @@
                           <span slot="append">F 楼层</span>
                           </Input>
                       </div>
-                      <div class="dsinblock2">
+                    
+                      <div class="dsinblock3">
+                          <Input v-model="directoryadds.unit.number" :disabled="disabledse">
+                          <span slot="append">门牌号</span>
+                          </Input>
+                      </div>
+                        <div class="dsinblock2">
                           <Checkbox @on-change='disabledse = !disabledse' v-model="directoryadds.unit.floor">
                          
                            <span v-if="directoryadds.unit.floor">整层</span>
                                 <span v-else>不是整层</span>
                           </Checkbox>
                       </div>
-                      <div class="dsinblock3">
-                          <Input v-model="directoryadds.unit.number" :disabled="disabledse">
-                          <span slot="append">门牌号</span>
-                          </Input>
-                      </div>
                  </FormItem>
                   <FormItem label="公司规模">
-                  <Select v-model="directoryadds.scalex">
-                      <Option value="20人以下">20人以下</Option>
-                      <Option value="20-50人">20-50人</Option>
-                      <Option value="50-100人">50-100人</Option>
-                      <Option value="100-200人">100-200人</Option>
-                      <Option value="200-500人">200-500人</Option>
-                      <Option value="500-800人">500-800人</Option>
-                      <Option value="800-1500人">800-1500人</Option>
-                      <Option value="1500人以上">1500人以上</Option>
-                  </Select>
+                  <select v-model="directoryadds.scalex" class="selectUI">
+                      <option value="20人以下">20人以下</option>
+                      <option value="20-50人">20-50人</option>
+                      <option value="50-100人">50-100人</option>
+                      <option value="100-200人">100-200人</option>
+                      <option value="200-500人">200-500人</option>
+                      <option value="500-800人">500-800人</option>
+                      <option value="800-1500人">800-1500人</option>
+                      <option value="1500人以上">1500人以上</option>
+                  </select>
                  </FormItem>
                    <FormItem label="租户行业">
-                         <Select v-model="directoryadds.tradex">
-                          <Option value="IT|通信|电子|互联网">IT|通信|电子|互联网</Option>
-                          <Option value="金融业">金融业</Option>
-                          <Option value="房地产|建筑">房地产|建筑</Option>
-                          <Option value="贸易|批发|零售|租赁业">贸易|批发|零售|租赁业</Option>
-                          <Option value="生产|加工|制造">生产|加工|制造</Option>
-                          <Option value="交通|运输|物流|仓储">交通|运输|物流|仓储</Option>
-                          <Option value="服务业">服务业</Option>
-                          <Option value="文化|传媒|娱乐|体育">文化|传媒|娱乐|体育</Option>
-                          <Option value="文体教育|工艺美术">文体教育|工艺美术</Option>
-                          <Option value="能源|矿产|环保">能源|矿产|环保</Option>
-                          <Option value="商业服务">商业服务</Option>
-                          <Option value="政府|非盈利机构">政府|非盈利机构</Option>
-                          <Option value="农|林|牧|渔">农|林|牧|渔</Option>
-                          <Option value="机械设备|医疗器械">机械设备|医疗器械</Option>
-                          <Option value="其他">其他</Option>
-                        </Select>
+                         <select v-model="directoryadds.tradex" class="selectUI">
+                          <option value="IT|通信|电子|互联网">IT|通信|电子|互联网</option>
+                          <option value="金融业">金融业</option>
+                          <option value="房地产|建筑">房地产|建筑</option>
+                          <option value="贸易|批发|零售|租赁业">贸易|批发|零售|租赁业</option>
+                          <option value="生产|加工|制造">生产|加工|制造</option>
+                          <option value="交通|运输|物流|仓储">交通|运输|物流|仓储</option>
+                          <option value="服务业">服务业</option>
+                          <option value="文化|传媒|娱乐|体育">文化|传媒|娱乐|体育</option>
+                          <option value="文体教育|工艺美术">文体教育|工艺美术</option>
+                          <option value="能源|矿产|环保">能源|矿产|环保</option>
+                          <option value="商业服务">商业服务</option>
+                          <option value="政府|非盈利机构">政府|非盈利机构</option>
+                          <option value="农|林|牧|渔">农|林|牧|渔</option>
+                          <option value="机械设备|医疗器械">机械设备|医疗器械</option>
+                          <option value="其他">其他</option>
+                        </select>
                  </FormItem>
 
                   <FormItem label="租约到期">
@@ -228,6 +228,7 @@
                 <Icon type="card"></Icon> {{n.moldx}}: <a href="#" @click.prevent='clickCard(n.subs)'>点击查看</a></p>
             </div>
         </Card>
+        <div v-if="manData.length ==0">没有联系人</div>
         <div>
             <Modal v-model="clickCards">
                 <img :src="clickCardsimg" style="width:500px;">

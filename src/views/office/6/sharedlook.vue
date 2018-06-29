@@ -33,7 +33,7 @@
      margin-bottom:15px;
    }
    .tables{
-    width:1200px;
+    width:100%;
     margin:0 auto;
     empty-cells: show;
     background-color: transparent;
@@ -326,7 +326,7 @@
     <pre>{{data3}}</pre>
     <!-- <pre>{{access}}</pre> -->
        <Row v-if="lce">
-         <Col :xs="24" :sm="24" :md="8" :lg="6" style="padding:5px">
+         <Col :xs="24" :sm="24" :md="24" :lg="24" >
 
              <Card style="margin-bottom: 10px;max-height:600px;overflow:auto">
                    <p slot="title">
@@ -382,7 +382,7 @@
 
 
          </Col>
-         <Col :xs="24" :sm="24" :md="16" :lg="18" style="padding:5px">
+         <Col :xs="24" :sm="24" :md="24" :lg="24" >
 
          <Card style="margin-bottom: 10px;">
                <p slot="title">
@@ -390,27 +390,38 @@
                   楼盘:({{lou1.master}}) {{lou1.updated_at}}
               </p>
                <div class="ovhide">
-               <table class="tables" style="table-layout: fixed;">
-               <tbody>
-                 <tr>
-                  <th title="共享办公楼盘">共享办公楼盘</th>
-                  <th title="所在楼层">所在楼层</th>
-                  <th title="所属品牌">所属品牌</th>
-                  <th title="品牌总机">品牌总机</th>
-                  <th title="所在区域">所在区域</th>
-                  <th title="地址">地址</th>
-                  <th title="楼盘类型">楼盘类型</th>
-                 </tr>
-                 <tr>
-                  <td>{{lou1.fname}}</td>
-                  <td>{{lou1.floorx}}层</td>
-                  <td>{{lou1.pname}}</td>
-                  <td>{{lou1.boarx}}</td>
-                  <td>{{lou1.region}}</td>
-                  <td>{{lou1.address}}</td>
-                  <td>{{lou1.spec}}</td>
-                 </tr>
-               </tbody>
+              
+               <table class="tables">
+                <tbody>
+                  <tr>
+                    <th title="共享办公楼盘">共享办公楼盘</th>
+                    <td>{{lou1.fname}}</td>
+                  </tr>
+                  <tr>
+                    <th title="所在楼层">所在楼层</th>
+                     <td>{{lou1.floorx}}层</td>
+                  </tr>
+                  <tr>
+                     <th title="所属品牌">所属品牌</th>
+                     <td>{{lou1.pname}}</td>
+                  </tr>
+                  <tr>
+                     <th title="品牌总机">品牌总机</th>
+                     <td>{{lou1.boarx}}</td>
+                  </tr>
+                  <tr>
+                    <th title="所在区域">所在区域</th>
+                    <td>{{lou1.region}}</td>
+                  </tr>
+                  <tr>
+                     <th title="地址">地址</th>
+                      <td>{{lou1.address}}</td>
+                  </tr>
+                  <tr>
+                    <th title="楼盘类型">楼盘类型</th>
+                     <td>{{lou1.spec}}</td>
+                  </tr>
+                </tbody>
                </table>
               </div>
               <!-- shu -->
@@ -455,7 +466,7 @@
                       工位
                    </p>
                    <div style="overflow:auto">
-                    <Table style="width:1200px;" height="200" :columns="columns2" :data="data3" no-data-text="没有工位" no-filtered-data-text="没有找到工位"></Table>
+                    <Table :columns="columns2" :data="data3" no-data-text="没有工位" no-filtered-data-text="没有找到工位"></Table>
                     </div>
               </Card>
              <Card style="margin-bottom: 10px;">
@@ -531,17 +542,16 @@ export default {
             clickCards:false,
             columns2: [
                     {
-                        title: 'ID',
-                        key: 'sh3id',
-                        width: 80,
-                    },
-                    {
                         title: '工位类型',
+                        width: 100,
+                        align: 'center',
                         key: 'typex'
                     },
                     {
                         title: '单价',
                         key: 'money1',
+                        width: 150,
+                        align: 'center',
                         render: (h, params) => {
                            const row = params.row;
                             return h('div', [
@@ -554,10 +564,14 @@ export default {
                     },
                     {
                         title: '付款方式',
+                        width: 100,
+                        align: 'center',
                         key: 'deposit'
                     },
                     {
                         title: '最短租期',
+                        width: 100,
+                        align: 'center',
                         key: 'miniterm',
                          render: (h, params) => {
                            const row = params.row;
@@ -571,11 +585,15 @@ export default {
                     },
                     {
                         title: '注册',
+                        width: 100,
+                        align: 'center',
                         key: 'register'
                     },
                     {
                         title: '图片',
                         key: 'imgx1',
+                        width: 80,
+                        align: 'center',
                         render: (h, params) => {
                            const row = params.row;
                            const color = row.imgx1 == "有图"?"primary":"ghost";
@@ -592,6 +610,9 @@ export default {
                     {
                         title: '操作',
                         key: 'hidex',
+                        width: 80,
+                        align: 'center',
+                        fixed: 'right',
                          render: (h, params) => {
                             const row = params.row;
                             const text = row.hidex == '上架' ? true : false;

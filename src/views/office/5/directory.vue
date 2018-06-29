@@ -1,23 +1,35 @@
 
 <style lang="less">
  .directory{
+   padding-top: 77px;
+   .cardlistno{
+    background: #fff;
+    margin: 5px 0;
+    padding: 40px;
+    text-align: center;
+    i{
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+  }
      .selectsNmae{
       .ivu-select-not-found{
            display:none
       }
    }
    .titims{
-    .ivu-card-body{
-      padding:7px;
-      .lesr{
+    background: #fff;
+        padding: 5px;
+    .lesr{
         float: left;
+            margin: 4px 0 0 0;
       }
       .rigths{
         float:right;
         line-height: 33px;
         padding-right: 10px;
       }
-    }
   }
   .lstable{
     .tableUl{
@@ -47,141 +59,232 @@
      margin: 15px 5px 5px 0;
    }
  }
+
+
+ .directory{
+  .selectUI{
+    width: 100%;
+    height: 32px;
+    line-height: 1.5;
+    padding: 4px 7px;
+    font-size: 12px;
+    border: 1px solid #dddee1;
+    border-radius: 4px;
+    color: #495060;
+    background-color: #fff;
+  }
+  .sou1{
+    background:#fff;
+    padding: 4px;
+  }
+  .sou2{
+    background:#fff;
+    padding: 4px;
+    box-shadow: 1px 2px 1px 0px rgba(0, 0, 0, 0.13);
+    .soup{
+      text-align:center;
+      padding: 5px 0;
+      .ivu-icon{
+        padding-left: 5px;
+      }
+    }
+    .on{
+      color:#2b85e4;
+    }
+  }
+ .navfix{
+    position:fixed;
+    top:40px;
+    left:0;
+    width:100%;
+    z-index: 10;
+    .cons{
+      background:#fff;
+      height:100vh;
+      overflow: hidden;
+      .botonbur{
+        position:fixed;
+        bottom:0;
+        left:0;
+        width:100%;
+        button{
+          width:50%;
+        }
+        .ivu-btn-ghost{background:#fff}
+      }
+      .p1{
+        text-align: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+        border-right: 1px solid #eee;    
+        &:first-child{
+         border-top: 1px solid #eee;
+        }
+      }
+      .p2{
+        text-align: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;   
+        &:first-child{
+         border-top: 1px solid #eee;
+        }
+      }
+      .on{
+        background: #f7f7f7;
+      }
+      .on2{
+        color:#2b85e4;
+      }
+    }
+    .ovhide{
+      height:80vh;
+      overflow:auto;
+      padding-bottom: 50px;
+    }
+ }
+}
 </style>
 
 <template>
-   <div class="directory cf">
+   <div class="directory cf" :class="{hide:ovhide}">
    <pre>{{screens}}</pre>
-   <pre>{{access}}</pre>
-      <Card class='sere'>
-        <p slot="title">
-           <Icon type="ios-paper"></Icon>
-            企业名录
-        </p>
+      <div>
         <Form :model="screens" :label-width="80">
-          <Row>
-            <Col :xs="24" :sm="12" :md="8" :lg="4">
-               <FormItem label="房源名称">
-                    <Select v-model="screens.name" 
-                    class="selectsNmae" 
-                    filterable
-                    clearable
-                    remote
-                    :remote-method="remoteMethod"
-                    placeholder = '请搜索楼盘'
-                    :loading="loadingse">
-                      <Option v-for="(option, index) in optionsName" :value="option.value" :key="index">{{option.label}}</Option>
-                  </Select>
-              </FormItem>
+        <!-- se -->
+        <div class="navfix">
+          <Row class="sou1">
+            <Col>
+              <Select 
+                v-model="screens.name" 
+                class="selectsNmae" 
+                filterable
+                clearable
+                remote
+                :remote-method="remoteMethod"
+                placeholder = "搜索楼盘"
+                @on-change = "changseee2"
+                :loading="loadingse">
+                  <Option v-for="(option, index) in optionsName" :value="option.value" :key="index">{{option.label}}</Option>
+              </Select>
             </Col>
-
-             <Col :xs="24" :sm="12" :md="8" :lg="4">
-               <FormItem label="所在区域">
-                  <Cascader :data="region" v-model="screens.regions" change-on-select></Cascader>
-               </FormItem>
-             </Col>
-
-            <Col :xs="24" :sm="12" :md="8" :lg="4">
-               <FormItem label="最近地铁">
-                   <Select v-model="screens.metro" filterable clearable>
-                      <Option v-for="item in metros" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                   </Select>
-                </FormItem>
-            </Col>
-            <Col :xs="24" :sm="12" :md="8" :lg="4">
+          </Row>
+           <Row class="sou2">
+            <Col span="6"><p @click="navsr(0)" :class="{on:onst==0}" class="soup">所在区域<Icon type="arrow-down-b"></Icon></p></Col>
+            <Col span="6"><p @click="navsr(1)" :class="{on:onst==1}" class="soup">最近地铁<Icon type="arrow-down-b"></Icon></p></Col>
+            <Col span="6"><p @click="navsr(2)" :class="{on:onst==2}" class="soup">公司规模<Icon type="arrow-down-b"></Icon></p></Col>
+            <Col span="6"><p @click="navsr(3)" :class="{on:onst==3}" class="soup">筛选<Icon type="funnel"></Icon></Icon></p></Col>
+         </Row>
+         <!-- 11111 -->
+          <Row class="cons" v-if="onst==0">
+        <Col span="8" class="ovhide">
+          <p class="p1" :class="{on:yeson==index}" v-for="(item,index) in region" :key="item.value" @click="clickyes(index,item.value)">{{item.value}}</p>
+        </Col>
+        <Col span="16" class="ovhide" style="background: #f7f7f7;">
+          <p class="p2" :class="{on2:yeson2==index}" v-for="(item,index) in childrenre" :key="item.value" @click="clickyes2(index,item.value)">
+            {{item.value}}
+          </p>
+        </Col>
+        <ButtonGroup class="botonbur">
+          <Button type="ghost" icon="reply" @click="conno">重置</Button>
+          <Button type="primary" icon="ios-search" @click="conyes">确认</Button>
+        </ButtonGroup>
+    </Row>
+         <!-- 11111 -->
+         <!-- 222222 -->
+         <Row v-if="onst==1" class="cons">
+          <Col class="ovhide">
+            <p class="p2" :class="{on:yeson3== -1}" @click="clickyes4">全部</p>
+            <p class="p2" :class="{on:yeson3==index}" v-for="(item,index) in metros" :key="item.value" @click="clickyes3(index,item.value)">{{item.value}}</p>
+          </Col>
+        </Row>
+         <!-- 222222 -->
+         <!-- 33333   -->
+         <Row v-if="onst==2" class="cons">
+      <Col class="ovhide">
+        <p class="p2" @click="strenc('0')" :class="{on:screens.scalex == ''}" >全部</p>
+        <p class="p2" @click="strenc('20人以下')" :class="{on:screens.scalex == '20人以下'}" >20人以下</p>
+        <p class="p2" @click="strenc('20-50人')" :class="{on:screens.scalex == '20-50人'}" >20-50人</p>
+        <p class="p2" @click="strenc('50-100人')" :class="{on:screens.scalex == '50-100人'}" >50-100人</p>
+        <p class="p2" @click="strenc('100-200人')" :class="{on:screens.scalex == '100-200人'}" >100-200人</p>
+        <p class="p2" @click="strenc('200-500人')" :class="{on:screens.scalex == '200-500人'}" >200-500人</p>
+        <p class="p2" @click="strenc('500-800人')" :class="{on:screens.scalex == '500-800人'}" >500-800人</p>
+        <p class="p2" @click="strenc('800-1500人')" :class="{on:screens.scalex == '800-1500人'}" >800-1500人</p>
+        <p class="p2" @click="strenc('1500人以上')" :class="{on:screens.scalex == '1500人以上'}" >1500人以上</p>
+      </Col>
+    </Row>
+         <!-- 33333   -->
+         <!-- 44444 -->
+          <Row v-if="onst==3" class="cons" style="padding: 5px 10px 0 10px;border-top: 1px solid #eee;">
+           <Col class="ovhide"> 
                <FormItem label="所在楼层">
                     <Input v-model="screens.layers">
                         <span slot="append">层</span>
                     </Input>
                </FormItem>
-            </Col>
-            <Col :xs="24" :sm="12" :md="8" :lg="4">
-               <FormItem label="公司名称">
+                <FormItem label="公司名称">
                     <Input v-model="screens.companyname">
                        
                     </Input>
                </FormItem>
-            </Col>
-            <Col :xs="24" :sm="12" :md="8" :lg="4">
-               <FormItem label="公司规模">
-                 <Select v-model="screens.scalex">
-                      <Option value="20人以下">20人以下</Option>
-                      <Option value="20-50人">20-50人</Option>
-                      <Option value="50-100人">50-100人</Option>
-                      <Option value="100-200人">100-200人</Option>
-                      <Option value="200-500人">200-500人</Option>
-                      <Option value="500-800人">500-800人</Option>
-                      <Option value="800-1500人">800-1500人</Option>
-                      <Option value="1500人以上">1500人以上</Option>
-                  </Select>
-               </FormItem>
-            </Col>
-            </Row>
-            <Row>
-            <Col :xs="24" :sm="12" :md="8" :lg="4">
                <FormItem label="公司行业">
-                 <Select v-model="screens.tradex">
-                          <Option value="IT|通信|电子|互联网">IT|通信|电子|互联网</Option>
-                          <Option value="金融业">金融业</Option>
-                          <Option value="房地产|建筑">房地产|建筑</Option>
-                          <Option value="贸易|批发|零售|租赁业">贸易|批发|零售|租赁业</Option>
-                          <Option value="生产|加工|制造">生产|加工|制造</Option>
-                          <Option value="交通|运输|物流|仓储">交通|运输|物流|仓储</Option>
-                          <Option value="服务业">服务业</Option>
-                          <Option value="文化|传媒|娱乐|体育">文化|传媒|娱乐|体育</Option>
-                          <Option value="文体教育|工艺美术">文体教育|工艺美术</Option>
-                          <Option value="能源|矿产|环保">能源|矿产|环保</Option>
-                          <Option value="商业服务">商业服务</Option>
-                          <Option value="政府|非盈利机构">政府|非盈利机构</Option>
-                          <Option value="农|林|牧|渔">农|林|牧|渔</Option>
-                          <Option value="机械设备|医疗器械">机械设备|医疗器械</Option>
-                          <Option value="其他">其他</Option>
-                  </Select>
+                 <select v-model="screens.tradex" class="selectUI">
+                          <option value="IT|通信|电子|互联网">IT|通信|电子|互联网</option>
+                          <option value="金融业">金融业</option>
+                          <option value="房地产|建筑">房地产|建筑</option>
+                          <option value="贸易|批发|零售|租赁业">贸易|批发|零售|租赁业</option>
+                          <option value="生产|加工|制造">生产|加工|制造</option>
+                          <option value="交通|运输|物流|仓储">交通|运输|物流|仓储</option>
+                          <option value="服务业">服务业</option>
+                          <option value="文化|传媒|娱乐|体育">文化|传媒|娱乐|体育</option>
+                          <option value="文体教育|工艺美术">文体教育|工艺美术</option>
+                          <option value="能源|矿产|环保">能源|矿产|环保</option>
+                          <option value="商业服务">商业服务</option>
+                          <option value="政府|非盈利机构">政府|非盈利机构</option>
+                          <option value="农|林|牧|渔">农|林|牧|渔</option>
+                          <option value="机械设备|医疗器械">机械设备|医疗器械</option>
+                          <option value="其他">其他</option>
+                  </select>
                </FormItem>
-            </Col>
-            <Col :xs="24" :sm="12" :md="8" :lg="4">
-              <FormItem label="录入时间">
-                  <DatePicker type="daterange" v-model="screens.timese" :options="options2" style="width:100%" split-panels></DatePicker>
-              </FormItem>
-            </Col>
-            <Col :xs="24" :sm="12" :md="8" :lg="8">
-              <FormItem label="是否在租">
+               <FormItem label="是否在租">
                    <RadioGroup v-model="screens.grade" type="button">
                         <Radio label="是">是</Radio>
                         <Radio label="否">否</Radio>
                     </RadioGroup>
               </FormItem>
-            </Col>
-          </Row>
-         <Row>
-           <Col :xs="24" :sm="24" :md="24" :lg="24" style="text-align:center">
-             <Button size="small" @click='screenss' type="primary" icon="ios-search">查询</Button>
-             <Button size="small" @click='reson' type="ghost" icon="reply">重置</Button>
            </Col>
-        </Row>
+           <ButtonGroup class="botonbur">
+              <Button type="ghost" icon="reply" @click='reson'>重置</Button>
+              <Button type="primary" icon="ios-search" @click='screenss'>确认</Button>
+            </ButtonGroup>
+           </Row>
+         <!-- 44444 -->
+        </div>
+        <!-- se -->
+         
+         
         </Form>
-      </Card>
-        <Card class='titims' style="margin:15px 0 0 0">
+      </div>
+        <div class='titims' style="margin:5px 0">
          <div class="cf">
-          <Button class="lesr" type="primary" @click="addLOUPan" shape="circle" icon="ios-plus-outline">添加名录</Button>
+          <Button class="lesr" type="primary" @click="addLOUPan" shape="circle" size="small" icon="ios-plus-outline">添加名录</Button>
             <div class="rigths">楼盘：<b>{{totals}}</b>套</div>
             <div class="rigths">企业名录：<b>{{totals1}}</b>条</div>
          </div>
-        </Card>
-         <Card style="margin:15px 0 0 0" v-if='datale.length !== 0'>
+        </div>
+         <div v-if='datale.length !== 0' style="background: #fff;padding: 5px;">
             <div class="cf">
                <div class="lstable cf">
                   <div class="tableUl">
                        <div class="ls" v-for="(item, index) in datale" :key="index">
                         <div class="li cf">
                           <div class="le" @click.prevent="showHide(index,item.ofid)">
-                            <b>楼盘名称:{{item.name}}</b>
+                            <b>{{item.name}}</b>
                           </div>
                           <div class="rig">
                             <a href="#" @click.prevent="showHide(index,item.ofid)">查看详情 </a>
-                              <Tooltip content="打印" placement="top" v-if="access.ente03">
+                             <!--  <Tooltip content="打印" placement="top" v-if="access.ente03">
                                   <a href="#" @click.prevent="printer(item.ofid,item.name)"><Icon style="vertical-align: middle" size='20' color="#5c6b77" type="printer"></Icon></a>
-                              </Tooltip>
+                              </Tooltip> -->
                           </div>
                         </div>
                           <Table v-if="toogless == index" :loading="loadings" width="100%" :columns="HouseTable" :data="HouseTableData" highlight-row></Table>
@@ -189,13 +292,13 @@
 
                   </div>
                 </div>
-                 <Page class="cf pages" :total="totals" :page-size="pageSize"  @on-change="changepage" show-total show-elevator></Page>
+                 <Page class="cf pages" :total="totals" :page-size="pageSize"  @on-change="changepage" size="small"></Page>
             </div>
             <Spin size="large" fix v-if="spinShow"></Spin>
-        </Card>
-        <Card class="padd10" style="min-height: 500px;text-align:center" v-else>
-           <Icon type="ios-information-outline" style="font-size:2em"></Icon>
-           <h3>没有找到企业名录</h3>
+        </div>
+        <Card class="cardlistno" style="min-height: 500px;text-align:center" v-else>
+           <Icon type="sad-outline"></Icon>
+        <p>没有数据</p>
            <Spin size="large" fix v-if="spinShow"></Spin>
         </Card>
 
@@ -210,6 +313,13 @@ export default {
     name: 'directory',
       data () {
           return {
+            ovhide:false,
+            onst:-1,
+            yeson:-1,
+            yeson2:-1,
+            yeson3:-1,
+            yeson4:-1,
+            childrenre:[],
             totals: 0, //总页数
             pageSize: 0, //每页显示
             totals1:0,
@@ -271,24 +381,12 @@ export default {
                 width: 60,
                 align: 'center'
               },
-              {
-                title: '单元号',
-                align: 'center',
-                sortable: true,
-                width: 150,
-                render: (h, params) => {
-                 const row = params.row;
-                  return h('div', [
-                      h('span', {
-                      }, row.floorx+"F - "),
-                       h('span', {
-                      }, row.hnumber )
-                  ]);
-               }
-              },
+              
               {
                 title: '公司名称',
                 key: 'gname',
+                width: 230,
+                align: 'center',
                 render: (h, params) => {
                     const row = params.row;
                     const baidu = 'https://www.baidu.com/s?&wd='+row.gname;
@@ -344,11 +442,26 @@ export default {
                 }
               },
               {
+                title: '单元号',
+                align: 'center',
+                sortable: true,
+                width: 150,
+                render: (h, params) => {
+                 const row = params.row;
+                  return h('div', [
+                      h('span', {
+                      }, row.floorx+"F - "),
+                       h('span', {
+                      }, row.hnumber )
+                  ]);
+               }
+              },
+              {
               title: '操作',
               key: 'action',
-              width: 150,
-              fixed: 'right',
+              width: 130,
               align: 'center',
+              fixed: 'right',
               render: (h, params) => {
                   return h('div', [
                       h('Button', {
@@ -357,7 +470,7 @@ export default {
                               size: 'small'
                           },
                           style: {
-                              margin: '5px'
+                              margin: '2px'
                           },
                           on: {
                               click: () => {
@@ -375,7 +488,7 @@ export default {
                               size: 'small'
                           },
                           style: {
-                              margin: '5px'
+                              margin: '2px'
                           },
                           on: {
                               click: () => {
@@ -402,6 +515,90 @@ export default {
           this.buildingls(1);
         },
         methods:{
+          navsr(e){
+            this.onst = e
+          },
+           changseee2(value){
+            if (value == undefined) {
+               this.buildingls(1)
+               this.onst = -1
+            }else{
+              this.buildinglse(1)
+              this.onst = -1
+            }
+          },
+          clickyes(e,a){
+            this.yeson= e
+            this.yeson2= -1
+            this.childrenre = this.region[e].children
+            this.screens.regions[0] = a;
+            this.screens.regions[1] = '';
+            // console.log(a)
+            // console.log(this.region[e].children)
+          },
+          clickyes2(e,a){
+            this.yeson2= e
+            this.screens.regions[1] = a;
+            this.onst = -1
+            this.buildinglse(1)
+          },
+          conno(){
+            this.onst = -1
+            this.screens.regions = ['','']
+            this.buildinglse(1)
+          },
+          conyes(){
+            this.onst = -1
+            this.buildinglse(1)
+          },
+          clickyes4(){
+            this.onst = -1
+            this.yeson3= -1
+            this.screens.metro = ''
+            this.buildinglse(1)
+          },
+           clickyes3(e,a){
+            this.onst = -1
+            this.yeson3= e
+            this.screens.metro = a
+            this.buildinglse(1)
+          },
+          strenc(e){
+            this.onst = -1
+            if (e==0) {
+              this.buildingls(1)
+            }else{
+              this.screens.scalex = e;
+              this.buildinglse(1)
+            }
+          },
+          clickyes5(){
+            this.onst = -1
+            this.yeson4= -1
+            this.screens.ascription = ''
+            this.buildinglse(1)
+          },
+           clickyes6(e,a){
+            this.onst = -1
+            this.yeson4= e
+            this.screens.ascription = a
+            this.buildinglse(1)
+          },
+          piselu(e,a){
+            if (e==0) {
+              let query = { deal_id: a};
+                this.$router.push({
+                 name: 'houseadd_edit',
+                 query: query
+                });
+            }else if(e==1){
+              let query = { deal_id: a};
+                this.$router.push({
+                 name: 'house_follow',
+                 query: query
+                });
+            }
+          },
           accesse(){
              let _this = this;
              axios({
@@ -616,6 +813,7 @@ export default {
               }
             },
             screenss(){
+              this.onst = -1
               let _this = this;
                _this.screense = true; //有搜索条件
                _this.loadings = true;
@@ -624,6 +822,7 @@ export default {
                _this.buildinglse(1);
             },
             reson(){
+              this.onst = -1
               //重置
               let _this = this;
               _this.screense = false; //无搜索条件
@@ -651,7 +850,19 @@ export default {
                  query: query
                 });
             }
-        }
+        },
+        watch: {
+          onst: {
+              handler: function(val, oldVal) {
+                 if (val !== -1) {
+                   this.ovhide = true
+                 }else{
+                   this.ovhide = false
+                 }
+              },
+              deep: true
+          },
+      }
 };
 </script>
 

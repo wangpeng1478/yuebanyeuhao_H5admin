@@ -104,8 +104,7 @@ export const appRouter = [
         component: Main,
         children: [
             { path: 'work', icon: 'android-radio-button-off', title: '工作概览', name: 'work', component: () => import('@/views/office/1/work.vue')},
-            { path: 'Deal', icon: 'android-radio-button-off', title: '成交报告', name: 'Deal', component: () => import('@/views/office/1/Deals.vue')},
-            // { path: 'book', icon: 'android-radio-button-off', title: '选址推荐书', name: 'book_s', component: () => import('@/views/office/1/books.vue')},
+            { path: 'Deal', icon: 'android-radio-button-off', title: '成交报告', name: 'Deal', component: () => import('@/views/office/1/Deals.vue')}
         ]
     },
     {
@@ -140,8 +139,8 @@ export const appRouter = [
         children: [
             { path: 'clients', icon: 'android-radio-button-off', title: '客户列表', name: 'clients', component: () => import('@/views/office/4/client.vue')},
             { path: 'clientadd', icon: 'android-radio-button-off', title: '客户添加', name: 'client_add', component: () => import('@/views/office/4/clientadd.vue')},
-            // { path: 'directory', icon: 'android-radio-button-off', title: '企业名录', name: 'directory', component: () => import('@/views/office/5/directory.vue')},
-            // { path: 'directoryadd', icon: 'android-radio-button-off', title: '添加企业名录', name: 'directory_add', component: () => import('@/views/office/5/directoryadd.vue')},
+            { path: 'directory', icon: 'android-radio-button-off', title: '企业名录', name: 'directory', component: () => import('@/views/office/5/directory.vue')},
+            { path: 'directoryadd', icon: 'android-radio-button-off', title: '添加企业名录', name: 'directory_add', component: () => import('@/views/office/5/directoryadd.vue')},
         ]
     },
     // {

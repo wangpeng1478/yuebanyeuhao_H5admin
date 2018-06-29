@@ -1033,6 +1033,8 @@ export default {
           clickyes2(e,a){
             this.yeson2= e
             this.screens.regions[1] = a;
+            this.onst = -1
+            this.showHidese(1)
           },
           conno(){
             this.onst = -1

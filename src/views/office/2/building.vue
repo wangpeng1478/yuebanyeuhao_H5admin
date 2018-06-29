@@ -732,6 +732,8 @@ export default {
           clickyes2(e,a){
             this.yeson2= e
             this.screens.regions[1] = a;
+            this.onst = -1
+            this.buildinglse(1)
           },
           clickyes3(e,a){
             this.onst = -1

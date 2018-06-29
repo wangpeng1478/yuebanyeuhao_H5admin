@@ -60,7 +60,7 @@
                 <span>客户跟进提醒 - {{time}}</span>
             </p>
             <div style="conse">
-               <Table width="500" height="400" :columns="columns" :data="data"></Table>
+               <Table height="400" :columns="columns" :data="data"></Table>
             </div>
             <div slot="footer">
                 <Button type="dashed" @click="remind = false">暂不跟进</Button>
@@ -130,6 +130,7 @@ export default {
                                     on: {
                                         click: () => {
                                             // this.lookke(params.row.clid)
+                                            this.remind = false;
                                             let query = { deal_id: params.row.clid};
                                             this.$router.push({
                                              name: 'clientadd_look',
@@ -190,6 +191,7 @@ export default {
                                         click: () => {
                                            // console.log(params.row.id)
                                            params.row.look = true
+                                           this.remind2 = false;
                                            this.lookese(params.row.id)
                                         }
                                     }
@@ -235,12 +237,14 @@ export default {
                             desc: "没有客户需要跟进"
                         });
                    }
-                   if (res.data.message.power) {
-                     if(Cookies.set('remind') == undefined){
-                        Cookies.set('remind', 0,{ expires: 0.25 }); //6个小时
-                       _this.remind = res.data.message.power
-                    }
-                   }
+                   // if (res.data.message.power) {
+                   //   if(Cookies.set('remind') == undefined){
+                   //      Cookies.set('remind', 0,{ expires: 0.25 }); //6个小时
+                   //     _this.remind = res.data.message.power
+                   //  }
+                   // }
+                   _this.remind = res.data.message.power
+                   // _this.remind = true
                    _this.data = res.data.message.data
                    _this.$store.commit('setMessageCount', res.data.message.totals); 
                 })
@@ -259,6 +263,7 @@ export default {
                   // console.log(res.data.message.power)
                   // console.log(res.data.message.data)
                   _this.remind2 = res.data.message.power
+                  // _this.remind2 = true
                   _this.data2 = res.data.message.data
                 })
                 .catch(function(err) {

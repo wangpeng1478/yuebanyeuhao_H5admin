@@ -17,12 +17,12 @@
       right:3px;
      }
    }
-   .ovhide{
-     overflow:auto;
-     margin-bottom:15px;
-   }
+   // .ovhide{
+   //   overflow:auto;
+   //   margin-bottom:15px;
+   // }
    .tables{
-    min-width:1200px;
+    width:100%;
     margin:0 auto;
     empty-cells: show;
     background-color: transparent;
@@ -249,6 +249,23 @@
 .contents ul {
     text-indent: 0 !important
 }
+.housefollow{
+  .ivu-collapse-content{
+    padding:0
+  }
+  .ivu-collapse-content-box{
+    padding-top: 0;
+  }
+  .ivu-card{
+    border-radius:0;
+  }
+  .Collapse{
+    border-color: transparent;
+    .ivu-collapse-item{
+      background:#fff;
+    }
+  }
+}
 </style>
 
 <template>
@@ -257,9 +274,13 @@
    <pre>{{Timeline}}</pre>
    <pre>{{followUp}}</pre>
    <pre>{{plus}} - {{reduce}}</pre>
-     <Row v-if="!modal2r">
-        <Col :xs="24" :sm="24" :md="8" :lg="6">
-           <Card>
+   <Row v-if="!modal2r">
+    <Collapse v-model="Collapse2" class="Collapse">
+        <Panel name="1">
+            联系方式 <b>({{manData.length}})</b>
+            <p slot="content">
+              <!-- 11111111111111111111111111111111 -->
+              <Card>
               <p slot="title">
                  <Icon type="person-stalker"></Icon>
                   联系方式
@@ -278,8 +299,8 @@
            <div v-if='lookCard || toogless == index'>
             <div v-for="n in item.man2" :key="n.length">
               <p v-if="n.moldx == '公司名称'"><Icon type="ios-home-outline"></Icon> {{n.moldx}}: {{n.subs}}</p>
-              <p v-if="n.moldx == '手机'"><Icon type="iphone"></Icon> {{n.moldx}}: {{n.subs}}</p>
-              <p v-if="n.moldx == '固话'"><Icon type="ios-telephone"></Icon> {{n.moldx}}: {{n.subs}}</p>
+              <p v-if="n.moldx == '手机'"><Icon type="iphone"></Icon> {{n.moldx}}: <a :href="tele(n.subs)">{{n.subs}}</a></p>
+              <p v-if="n.moldx == '固话'"><Icon type="ios-telephone"></Icon> {{n.moldx}}: <a :href="tele(n.subs)">{{n.subs}}</a></p>
               <p v-if="n.moldx == '名片正'"><Icon type="card"></Icon> {{n.moldx}}: <a href="#" @click.prevent='clickCard(n.subs)'>查看</a></p>
               <p v-if="n.moldx == '名片反'"><Icon type="card"></Icon> {{n.moldx}}: <a href="#" @click.prevent='clickCard(n.subs)'>查看</a></p>
             </div>
@@ -288,10 +309,9 @@
               <Button type="primary" size="small" @click="clickMaids(item.maid,index)">点击查看</Button>
             </div>
           </Card>
-
            <Modal
           v-model="clickCards">
-          <img :src="clickCardsimg" style="width:500px;">
+          <img :src="clickCardsimg" style="width:100%;">
          </Modal>
       <Modal
         v-model="loocModel"
@@ -309,8 +329,14 @@
       <div v-else>加载中...</div>
               <!-- 联系人 -->
           </Card>
-
-          <Card style="margin-bottom: 10px;max-height: 500px;overflow: auto;">
+              <!-- 11111111111111111111111111111111 -->
+            </p>
+        </Panel>
+        <Panel name="2">
+            业主更多房源 <b>({{Morelistings.length}})</b>
+            <p slot="content">
+              <!-- 2222222222222222222222 -->
+              <Card>
                <p slot="title">
                   <Icon type="ios-settings-strong"></Icon>
                   业主更多房源
@@ -323,8 +349,14 @@
             </Card>
 
           </Card>
-
-          <Card v-if="louman.length !==0">
+              <!-- 2222222222222222222222 -->
+            </p>
+        </Panel>
+        
+        <Panel name="3">
+            楼盘联系方式 <b>({{louman.length}})</b>
+            <p slot="content">
+               <Card>
               <p slot="title">
                  <Icon type="person-stalker"></Icon>
                   楼盘联系方式
@@ -339,8 +371,8 @@
            <div v-if='lookCard || toogless == index'>
             <div v-for="n in item.man2" :key="n.length">
               <p v-if="n.moldx == '公司名称'"><Icon type="ios-home-outline"></Icon> {{n.moldx}}: {{n.subs}}</p>
-              <p v-if="n.moldx == '手机'"><Icon type="iphone"></Icon> {{n.moldx}}: {{n.subs}}</p>
-              <p v-if="n.moldx == '固话'"><Icon type="ios-telephone"></Icon> {{n.moldx}}: {{n.subs}}</p>
+              <p v-if="n.moldx == '手机'"><Icon type="iphone"></Icon> {{n.moldx}}: <a :href="tele(n.subs)">{{n.subs}}</a></p>
+              <p v-if="n.moldx == '固话'"><Icon type="ios-telephone"></Icon> {{n.moldx}}: <a :href="tele(n.subs)">{{n.subs}}</a></p>
               <p v-if="n.moldx == '名片正'"><Icon type="card"></Icon> {{n.moldx}}: <a href="#" @click.prevent='clickCard(n.subs)'>查看</a></p>
               <p v-if="n.moldx == '名片反'"><Icon type="card"></Icon> {{n.moldx}}: <a href="#" @click.prevent='clickCard(n.subs)'>查看</a></p>
             </div>
@@ -352,7 +384,7 @@
 
            <Modal
           v-model="clickCards">
-          <img :src="clickCardsimg" style="width:500px;">
+          <img :src="clickCardsimg" style="width:100%;">
          </Modal>
       <Modal
         v-model="loocModel"
@@ -370,55 +402,63 @@
       <div v-else>加载中...</div>
               <!-- 联系人 -->
           </Card>
+            </p>
+        </Panel>
+    </Collapse>
 
-        </Col>
-        <Col :xs="24" :sm="24" :md="16" :lg="18">
-            <Card style="margin-bottom: 10px;">
+     
+        <Col :xs="24" :sm="24" :md="24" :lg="24">
+            <Card style="margin: 10px 0;">
                <p slot="title">
                   <Icon type="stats-bars"></Icon>
                   最新跟进:({{master}}){{uptime}}
               </p>
                <div class="ovhide">
                <table class="tables">
-               <tbody>
-                 <tr>
-                  <th>楼盘名称</th>
-                  <th>门牌号</th>
-                  <th>面积</th>
-                  <th>租售价格</th>
-                  <th>付款方式</th>
-                  <th>装修</th>
-                  <th>业主类型</th>
-                 </tr>
-                 <tr>
-                  <td>{{house.name}}</td>
-                  <td>
-                   <Poptip trigger="hover" title="单元号">
-                      <div style="width: 80px;
-                          overflow: hidden;
-                          white-space: nowrap;
-                          text-overflow: ellipsis;">
-                        <span v-for="(n, index) in house.Addconditions" :key="n.length">{{n.room}} </span>
+                  <tr>
+                    <th>楼盘名称</th>
+                    <td>{{house.name}}</td>
+                  </tr>
+                  <tr>
+                    <th>门牌号</th>
+                    <td>
+                      <Poptip trigger="hover" title="单元号">
+                      <div>
+                        <p v-for="(n, index) in house.Addconditions" :key="n.length">{{n.room}} </p>
                       </div>
                      <div class="api" slot="content">
                        <p v-for="(n, index) in house.Addconditions" :key="n.length">{{n.room}}</p>
                     </div>
                    </Poptip>
-                   
-                  </td>
-                  <td>{{house.area2}}m²</td>
-                  <td>
-                   <p>{{house.money3}}元/m²*天(租)</p>
-                   <p v-if="house.Forsale2 !== null">{{house.Forsale2}}元(售)</p>
-                  </td>
-                  <td>押{{house.deposit}}付{{house.deposit2}}</td>
-                  <td>{{house.fitment}}</td>
-                  <td>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>面积</th>
+                    <td>{{house.area2}}m²</td>
+                  </tr>
+                  <tr>
+                     <th>租售价格</th>
+                     <td>
+                     <p>{{house.money3}}元/m²*天(租)</p>
+                     <p v-if="house.Forsale2 !== null">{{house.Forsale2}}元(售)</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>付款方式</th>
+                   <td>押{{house.deposit}}付{{house.deposit2}}</td>
+                  </tr>
+                  <tr>
+                    <th>装修</th>
+                    <td>{{house.fitment}}</td>
+                  </tr>
+                  <tr>
+                    <th>业主类型</th>
+                     <td>
                   <p>{{identity1}}</p>
                   <p>{{identity2}}</p>
                   </td>
-                 </tr>
-               </tbody>
+                  </tr>
+
                </table>
               </div>
               <!-- shu -->
@@ -536,6 +576,7 @@ export default {
       data () {
           return {
              id:'',
+             Collapse2:'-1',
              modal2r:false,
              timebuer:false,
              popupdata:{},
@@ -835,6 +876,9 @@ export default {
                   this.id = this.plus
                }
               }
+            },
+            tele(e){
+              return 'tel:'+e
             },
             makeout(e){
                // console.log(e)

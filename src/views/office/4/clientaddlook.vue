@@ -89,11 +89,10 @@
     }
   }
   .contactse{
-     width:45%;
+     width:100%;
      display:inline-block;
-     margin-bottom:10px;
+     margin-bottom:5px;
      vertical-align:top;
-     margin:1%;
      .lip{
        overflow:hidden;
        display:block;
@@ -341,11 +340,11 @@
                   </ul>
                <div class="hr"></div>
                   <Card v-for="(item, index) in datas.contact" :key="item.length" class="contactse">
-                    <p class="lip">客户姓名:{{item.name}}({{item.sex}})</p>
-                    <p class="lip">客户手机:{{item.phonenumber.name}}</p>
-                    <p class="lip">客户座机:{{item.tel.name}}-{{item.tel.names}}</p>
-                    <p class="lip">客户邮箱:{{item.mail.name}}</p>
-                    <p class="lip">客户身份:{{item.Identity}}</p>
+                    <p v-if="item.name !==''" class="lip">客户姓名:{{item.name}}({{item.sex}})</p>
+                    <p v-if="item.phonenumber.name !==''" class="lip">客户手机:<a :href="tele(item.phonenumber.name)">{{item.phonenumber.name}}</a></p>
+                    <p v-if="item.tel.names !==''" class="lip">客户座机:<a :href="tele(item.tel.names)">{{item.tel.name}}-{{item.tel.names}}</a></p>
+                    <p v-if="item.mail.name !==''" class="lip">客户邮箱:{{item.mail.name}}</p>
+                    <p v-if="item.Identity !==''" class="lip">客户身份:{{item.Identity}}</p>
                   </Card>
                 </div>
            </Card>
@@ -593,6 +592,9 @@ export default {
                  name: 'clientadd_edit',
                  query: query
                 });
+            },
+            tele(e){
+              return 'tel:'+e
             },
              tiaozs(e){
               if (e == 0) {
